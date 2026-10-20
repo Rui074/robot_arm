@@ -15,7 +15,7 @@ Glist = robot_info['Glist']
 g = np.array([0, 0, -9.81])
 
 theta0 = np.zeros(6)
-theta_target = np.array([0.0, 0.4, 0.5, 0.6, 0.0, 0.0])
+theta_target = np.array([0.0, np.pi/2, 0.0, 0.0, 0.0, 0.0])
 delta_theta = theta_target-theta0
 
 t_log = np. linspace(0, 10, 100)

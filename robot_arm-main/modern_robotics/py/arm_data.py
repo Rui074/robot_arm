@@ -41,6 +41,7 @@ Slist = np.array([[ 0, 0, 1, 0,  0,        0],
                   [ 0, 0, 1, 0,  0.110,    0],
                   [-1, 0, 0, 0, -0.98655,  0]]).T
 
+Blist = mr.Adjoint(mr.TransInv(M)) @ Slist
 
 data = np.load('robot_dynamics_data.npz')
 Mlist = list(data['Mlist'])
@@ -53,6 +54,7 @@ robot_info = {
     'joint_constraints':joint_constraints,
     'M':M,
     'Slist':Slist,
+    'Blist':Blist,
     'Mlist':Mlist,
     'Glist':Glist,
     'g': np.array([0, 0, -9.81])

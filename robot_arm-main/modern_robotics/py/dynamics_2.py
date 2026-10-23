@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.signal import savgol_filter
 import modern_robotics as mr
 from arm_data import robot_info
 import matplotlib.pyplot as plt
@@ -81,11 +82,12 @@ for traj in trajectory:
 if all_success:
     thetalist = np.array(thetalist)
     thetalist_arr = np.unwrap(thetalist, axis=0)
-    omegalist = np.gradient(thetalist_arr, dt, axis=0)
+    thetalist_smooth = savgol_filter(thetalist_arr, window_length=9, polyorder=2, axis=0)
+    omegalist = np.gradient(thetalist_smooth, dt, axis=0)
     alphalist = np.gradient(omegalist, dt, axis=0)
     
     taulist = []
-    for theta, omega, alpha in zip(thetalist_arr, omegalist, alphalist):
+    for theta, omega, alpha in zip(thetalist_smooth, omegalist, alphalist):
         tau = mr.InverseDynamics(theta, omega, alpha, g, np.zeros(6), Mlist, Glist, Slist)
         taulist.append(tau) 
     
@@ -94,7 +96,7 @@ if all_success:
     plt. figure(figsize = (10, 8))
     plt.subplot(2, 1, 1)
     for j in range(6):
-        plt.plot(t_log, thetalist_arr[:, j], label=f'joint{j+1}')
+        plt.plot(t_log, thetalist_smooth[:, j], label=f'joint{j+1}')
     plt.xlabel('time (s)'); plt.ylabel('theta')
     plt.grid(True); plt.legend()
     

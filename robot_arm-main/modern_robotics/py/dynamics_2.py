@@ -60,8 +60,8 @@ delta_theta = theta_target-theta0
 T_start = mr.FKinSpace(M, Slist, theta0)
 T_end = mr.FKinSpace(M, Slist, theta_target)
 
-T_total = 5
-N = 100
+T_total = 10
+N = 201
 dt = T_total/(N-1)
 method = 5
 trajectory = mr.ScrewTrajectory(T_start, T_end, T_total, N, method)
